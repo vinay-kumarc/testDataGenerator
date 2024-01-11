@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { createJsonFile } from "../utils/JsonFileCreatorUtil.js";
 import { sendDataToBackend } from "../utils/FetchUtil.js";
+import { getInterpretation } from "../utils/CGMRangeCal.js";
 import {
   isBefore,
   getMomentDate,
@@ -20,6 +21,13 @@ export const generateCgmData = (startDate, endDate) => {
     let added5MinToTimeStamp = fromDate.add(timeInterval, "minutes");
     fromDate = added5MinToTimeStamp;
     let timeStampString = added5MinToTimeStamp.toISOString();
+    let mockValue = faker.number.float({
+      min: 1.11111112,
+      max: 33.33388916,
+      precision: 0.01,
+    });
+    let range = getInterpretation(mockValue);
+
     const content = {
       patientId: patientID,
       patientDay: null,
@@ -80,16 +88,13 @@ export const generateCgmData = (startDate, endDate) => {
             ],
           },
           valueQuantity: {
-            value: faker.number.float({
-              min: 1.11111112,
-              max: 33.33388916,
-              precision: 0.01,
-            }),
+            value: mockValue,
             unit: "mmol/L",
             system: "http://unitsofmeasure.org",
             code: "mmol/L",
           },
           valueCodeableConcept: null,
+          interpretation: [range],
         },
       ],
     };
