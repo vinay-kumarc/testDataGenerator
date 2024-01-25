@@ -56,8 +56,8 @@ export const generateCgmData = (startDate, endDate) => {
             lastUpdated: timeStampString,
           },
           effectivePeriod: {
-            fromDate: timeStampString,
-            toDate: timeStampString,
+            start: timeStampString,
+            end: timeStampString,
           },
           subject: {
             identifier: {
